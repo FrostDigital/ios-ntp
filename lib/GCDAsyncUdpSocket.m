@@ -382,7 +382,7 @@ enum GCDAsyncUdpSocketConfig
 
 - (void)dealloc
 {
-	LogInfo(@"%@ - %@ (start)", THIS_METHOD, self);
+	//LogInfo(@"%@ - %@ (start)", THIS_METHOD, self);
 	
 #if TARGET_OS_IPHONE
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -411,7 +411,7 @@ enum GCDAsyncUdpSocketConfig
 	[sendQueue release];
 	[userData release];
 	
-	LogInfo(@"%@ - %@ (finish)", THIS_METHOD, self);
+	//LogInfo(@"%@ - %@ (finish)", THIS_METHOD, self);
 	
 	[super dealloc];
 }
@@ -4238,7 +4238,7 @@ static NSThread *listenerThread;
 	
 		[[NSThread currentThread] setName:@"GCDAsyncUdpSocket-CFStream"];
 		
-		LogInfo(@"ListenerThread: Started");
+		//LogInfo(@"ListenerThread: Started");
 		
 		// We can't run the run loop unless it has an associated input source or a timer.
 		// So we'll just create a timer that will never fire - unless the server runs for a decades.
@@ -4250,7 +4250,7 @@ static NSThread *listenerThread;
 		
 		[[NSRunLoop currentRunLoop] run];
 		
-		LogInfo(@"ListenerThread: Stopped");
+		//LogInfo(@"ListenerThread: Stopped");
 	}
 }
 

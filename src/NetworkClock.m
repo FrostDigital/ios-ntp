@@ -201,7 +201,7 @@
   ┃ associationTrue -- notification from a 'truechimer' association of a trusty offset               ┃
   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 - (void) associationTrue:(NSNotification *) notification {
-    NTP_Logging(@"*** true association: %@ (%i left)",
+    //NTP_Logging(@"*** true association: %@ (%i left)",
                     [notification object], [timeAssociations count]);
     [self offsetAverage];
 }
@@ -213,7 +213,7 @@
 - (void) associationFake:(NSNotification *) notification {
     if ([timeAssociations count] > 8) {
         NetAssociation *    association = [notification object];
-        NTP_Logging(@"*** false association: %@ (%i left)", association, [timeAssociations count]);
+        //NTP_Logging(@"*** false association: %@ (%i left)", association, [timeAssociations count]);
         [timeAssociations removeObject:association];
         [association finish];
         association = nil;
@@ -224,7 +224,7 @@
   ┃ applicationBack -- catch the notification when the application goes into the background          ┃
   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 - (void) applicationBack:(NSNotification *) notification {
-    LogInProduction(@"*** application -> Background");
+    //LogInProduction(@"*** application -> Background");
     [self finishAssociations];
 }
 
@@ -232,7 +232,7 @@
   ┃ applicationFore -- catch the notification when the application comes out of the background       ┃
   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 - (void) applicationFore:(NSNotification *) notification {
-    LogInProduction(@"*** application -> Foreground");
+    //LogInProduction(@"*** application -> Foreground");
     [self enableAssociations];
 }
 
