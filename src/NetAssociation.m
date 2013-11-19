@@ -105,7 +105,7 @@ static double ntpDiffSeconds(struct ntpTimestamp * start, struct ntpTimestamp * 
     
     NSError* error = nil;
     if(![socket beginReceiving:&error]) {
-        NTP_Logging(@"Unable to start listening on socket for [%@] due to error [%@]", server, error);
+        //NTP_Logging(@"Unable to start listening on socket for [%@] due to error [%@]", server, error);
         return;
     }
 }
@@ -122,7 +122,7 @@ static double ntpDiffSeconds(struct ntpTimestamp * start, struct ntpTimestamp * 
     [repeatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:
                                  (double)(5.0 * (float)rand()/(float)RAND_MAX)]];
 
-    NTP_Logging(@"enabled: [%@]", server);
+    //NTP_Logging(@"enabled: [%@]", server);
 }
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -132,7 +132,7 @@ static double ntpDiffSeconds(struct ntpTimestamp * start, struct ntpTimestamp * 
     [socket pauseReceiving];
     [repeatingTimer setFireDate:[NSDate distantFuture]];
 
-    NTP_Logging(@"stopped: [%@]", server);
+    //NTP_Logging(@"stopped: [%@]", server);
 }
 
 #pragma mark                        N e t w o r k • T r a n s a c t i o n s
@@ -217,9 +217,9 @@ static double ntpDiffSeconds(struct ntpTimestamp * start, struct ntpTimestamp * 
     fifoQueue[fifoIndex % 8] = packetOffset;                // store offset
     fifoIndex++;                                            // rotate index
 
-    NTP_Logging(@"[%@] index=%i {%5.3f,%5.3f,%5.3f,%5.3f,%5.3f,%5.3f,%5.3f,%5.3f}", server,
+    /*NTP_Logging(@"[%@] index=%i {%5.3f,%5.3f,%5.3f,%5.3f,%5.3f,%5.3f,%5.3f,%5.3f}", server,
                 fifoIndex % 8, fifoQueue[0], fifoQueue[1], fifoQueue[2], fifoQueue[3], 
-                               fifoQueue[4], fifoQueue[5], fifoQueue[6], fifoQueue[7]);
+                               fifoQueue[4], fifoQueue[5], fifoQueue[6], fifoQueue[7]);*/
 /*┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
   │ look at the (up to eight) offsets in the fifo and and count 'good', 'fail' and 'not used yet'    │
   └──────────────────────────────────────────────────────────────────────────────────────────────────┘*/
@@ -246,8 +246,8 @@ static double ntpDiffSeconds(struct ntpTimestamp * start, struct ntpTimestamp * 
     if (good > 0 || fail > 3) {
         offset = offset / good;
         
-        NTP_Logging(@"[%@] index=%i {good: %i; fail: %i; none: %i} offset=%3.1f", server,
-                    fifoIndex, good, fail, none, offset * 1000.0);
+        /*NTP_Logging(@"[%@] index=%i {good: %i; fail: %i; none: %i} offset=%3.1f", server,
+                    fifoIndex, good, fail, none, offset * 1000.0);*/
         
         if (good+none < 5) {                                // four or more 'fails'
             trusty = FALSE;  
@@ -271,8 +271,8 @@ static double ntpDiffSeconds(struct ntpTimestamp * start, struct ntpTimestamp * 
     dispatch_async(dispatch_get_main_queue(), ^{
         // Reschedule the timer if the time interval differs from that we've selected.
         if([repeatingTimer timeInterval] != pollIntervals[pollingIntervalIndex]) {
-            NTP_Logging(@"[%@] poll interval adusted: %3.1f >> %3.1f", server,
-                        [repeatingTimer timeInterval], pollIntervals[pollingIntervalIndex]);
+            /*NTP_Logging(@"[%@] poll interval adusted: %3.1f >> %3.1f", server,
+                        [repeatingTimer timeInterval], pollIntervals[pollingIntervalIndex]);*/
             [repeatingTimer invalidate];
             [repeatingTimer release];
             repeatingTimer = [[NSTimer scheduledTimerWithTimeInterval:pollIntervals[pollingIntervalIndex]
@@ -334,15 +334,15 @@ static double ntpDiffSeconds(struct ntpTimestamp * start, struct ntpTimestamp * 
 }
 
 - (void) udpSocket:(GCDAsyncUdpSocket *)sock didNotConnect:(NSError *)error {
-    NTP_Logging(@"Socket failed to connect to [%@] due to error : [%@]", server, error);            
+    //NTP_Logging(@"Socket failed to connect to [%@] due to error : [%@]", server, error);
 }
 
 - (void) udpSocket:(GCDAsyncUdpSocket *)sock didNotSendDataWithTag:(long)tag dueToError:(NSError *)error {
-    NTP_Logging(@"Socket failed to send to [%@] due to error : [%@]", server, error);        
+    //NTP_Logging(@"Socket failed to send to [%@] due to error : [%@]", server, error);
 }
 
 - (void) udpSocketDidClose:(GCDAsyncUdpSocket *)sock withError:(NSError *)error {
-    NTP_Logging(@"Socket closed : [%@] error : [%@]", server, error);    
+    //NTP_Logging(@"Socket closed : [%@] error : [%@]", server, error);
 }
 
 #pragma mark                        T i m e • C o n v e r t e r s
